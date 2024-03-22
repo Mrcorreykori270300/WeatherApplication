@@ -1,0 +1,45 @@
+﻿@model WeatherData
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Weather Information</h1>
+
+    @if (!string.IsNullOrEmpty(TempData["ErrorMessage"] as string))
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong>Error:</strong> @TempData["ErrorMessage"] <span>&#x1F613;</span>
+        </div>
+    }
+
+    <form asp-controller="Weather" asp-action="Index" method="get" class="mb-4">
+        <div class="row">
+            <div class="col-md-8">
+                <input asp-for="name" class="form-control" placeholder="Enter Location" required />
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary">Get Weather <span>&#x1F30D;</span></button>
+            </div>
+        </div>
+    </form>
+
+    @if (Model != null)
+    {
+        <div class="card mt-4">
+            <div class="card-body">
+                <h3 class="card-title">@Model.name, @Model.sys.country</h3>
+                <p class="card-text"><strong>Temperature:</strong> <span class="text-danger">@Model.main.temp &deg;C</span></p>
+                <p class="card-text"><strong>Weather:</strong> <span>&#x1F32B;</span> @Model.weather[0].description</p>
+                <p class="card-text"><strong>Wind Speed:</strong> <span>@Model.wind.speed m/s</span></p>
+                <p class="card-text"><strong>Feels Like:</strong> <span>@Model.main.feels_like &deg;C</span></p>
+                <p class="card-text"><strong>Min Temp:</strong> <span>@Model.main.temp_min &deg;C</span></p>
+                <p class="card-text"><strong>Max Temp:</strong> <span>@Model.main.temp_max &deg;C</span></p>
+                <p class="card-text"><strong>Pressure:</strong> <span>@Model.main.pressure hPa</span></p>
+                <p class="card-text"><strong>Sea Level:</strong> <span>@Model.main.sea_level m</span></p>
+                <p class="card-text"><strong>Ground Level:</strong> <span>@Model.main.grnd_level m</span></p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p class="mt-4 text-danger">Error fetching weather data. Please try again. <span>&#x1F61E;</span></p>
+    }
+</div>
